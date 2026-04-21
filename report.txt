@@ -1,0 +1,96 @@
+============================================================
+PHISHING INVESTIGATION REPORT
+============================================================
+
+VERDICT
+------------------------------------------------------------
+Verdict   : PHISHING
+Score     : 13
+Confidence: HIGH
+
+DETECTION REASONS
+------------------------------------------------------------
+  - SPF failure
+  - No DKIM signature
+  - DMARC failure
+  - Suspicious return-path (Linux host)
+  - Suspicious domain: blog1seguimentmydomaine2bra.me
+  - Cloud VPS IP: 137.184.34.4
+
+EXTRACTED IoCs
+------------------------------------------------------------
+Malicious URLs:
+  - https://blog1seguimentmydomaine2bra.me/
+
+Legitimate URLs (used for disguise):
+  - https://fonts.gstatic.com
+  - https://fonts.googleapis.com/css2?family=Signika:wght@300;500;700&amp;display=swap
+
+Malicious Domains:
+  - blog1seguimentmydomaine2bra.me
+
+Domain Reputation Note:
+  - Newly registered / lookalike domain used for brand impersonation
+
+Legitimate Domains (used to appear safe):
+  - fonts.googleapis.com
+  - fonts.gstatic.com
+
+IP Addresses:
+  - 137.184.34.4
+
+Email Addresses:
+  - BANCO.BRADESCO@ATENDIMENTO.COM.BR
+  - banco.bradesco@atendimento.com.br
+
+EMAIL DETAILS
+------------------------------------------------------------
+From    : BANCO DO BRADESCO LIVELO <banco.bradesco@atendimento.com.br>
+To      : phishing@pot
+Subject : CLIENTE PRIME - BRADESCO LIVELO: Seu cartão tem 92.990 pontos LIVELO expirando hoje!
+Date    : Tue, 19 Sep 2023 18:35:49 +0000
+
+EMAIL AUTHENTICATION SUMMARY
+------------------------------------------------------------
+SPF   : FAIL
+DKIM  : NOT PRESENT
+DMARC : FAIL
+
+ATTACK TECHNIQUE OBSERVED
+------------------------------------------------------------
+Technique: Brand Impersonation + Infrastructure Camouflage
+
+The attacker used trusted Google CDN domains (fonts.gstatic.com, fonts.googleapis.com)
+to make the email appear legitimate while hosting the credential harvesting page
+on a newly registered malicious domain.
+
+MITRE ATT&CK MAPPING
+------------------------------------------------------------
+T1566.002 - Phishing: Link
+T1583.001 - Acquire Infrastructure: Domains
+T1583.003 - Acquire Infrastructure: VPS
+
+RISK TO ORGANIZATION
+------------------------------------------------------------
+If a user clicks the malicious link, attackers may harvest credentials,
+leading to account takeover, internal phishing spread, and data breach.
+
+RECOMMENDED ACTIONS FOR SOC
+------------------------------------------------------------
+  [HIGH PRIORITY - PHISHING DETECTED]
+  1. Block sending IP in firewall/email gateway
+  2. Block all malicious domains in web proxy/email gateway
+  3. Block only malicious URLs in web filtering systems
+  4. Search SIEM logs for connections to:
+     - blog1seguimentmydomaine2bra.me
+     - Traffic from 137.184.34.4
+  5. Reset affected user passwords (if applicable)
+  6. Notify incident response team
+  7. Add sender to email blocklist
+  8. Report phishing domain to abuse contacts
+
+============================================================
+Report generated: 2026-04-21 14:09:34
+============================================================
+
+This email is likely phishing because the suspicious domain "blog1seguimentmydomaine2bra.me" does not appear to be a legitimate or well-known website, and the use of a Linux host as the return-path suggests that the email may be spoofing the sender's identity. Additionally, the Cloud VPS IP address 137.184.34.4 is often associated with malicious activity
